@@ -1,4 +1,4 @@
-package com.kshz.fakebookserver.exceptions;
+package com.kshz.fakebookserver.config;
 
 import java.util.List;
 import java.util.Set;
@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.kshz.fakebookserver.exceptions.ExceptionResponse;
+import com.kshz.fakebookserver.exceptions.FakeBookApplicationException;
 import com.kshz.fakebookserver.utils.StringParser;
 
 @ControllerAdvice
@@ -53,7 +55,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 	public final ResponseEntity<ExceptionResponse> handleDuplicateKeyException(DuplicateKeyException ex,
 			WebRequest req) {
 		ExceptionResponse exRes = null;
-		
+
 		try {
 			// parse Exception to get custom message
 			String[] customDuplicateKeyParsedError = StringParser
@@ -68,5 +70,16 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 		}
 
 		return new ResponseEntity<ExceptionResponse>(exRes, HttpStatus.FORBIDDEN);
+	}
+
+	@ExceptionHandler(FakeBookApplicationException.class)
+	public final ResponseEntity<ExceptionResponse> handleApplicationException(FakeBookApplicationException ex,
+			WebRequest req) {
+		HttpStatus statusCode = ex.getStatusCode();
+
+		ExceptionResponse exRes = new ExceptionResponse(ex.getReason());
+		exRes.addDetails(ex.getDetails());
+
+		return new ResponseEntity<ExceptionResponse>(exRes, statusCode);
 	}
 }

@@ -42,6 +42,8 @@ public class User {
 	@Field
 	private String description;
 	
+	private String token;
+	
 	public User() {
 		super();
 	}
@@ -101,6 +103,14 @@ public class User {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	@Override
