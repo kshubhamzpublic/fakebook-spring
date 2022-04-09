@@ -24,12 +24,12 @@ public class ExceptionResponse {
 		this.details = details;
 	}
 
-	public LocalDateTime getTimeStamp() {
+	public LocalDateTime getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimeStamp(LocalDateTime timeStamp) {
-		this.timestamp = timeStamp;
+	public void setTimestamp(LocalDateTime timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public void setMessage(String message) {

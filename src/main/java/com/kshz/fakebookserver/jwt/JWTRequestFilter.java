@@ -48,7 +48,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		final String requestTokenHeader = request.getHeader("Authorization");
+		final String requestTokenHeader = request.getHeader("authorization");
 
 		if (requestTokenHeader != null) {
 			Map<String, Claim> payload = jwt.getAllClaimsFromToken(requestTokenHeader);
@@ -65,6 +65,8 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 			Optional<User> user = userService.findById(userId);
 
 			if (user.isPresent()) {
+				request.setAttribute("userId", userId);
+				
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userId, null, null);
 				usernamePasswordAuthenticationToken

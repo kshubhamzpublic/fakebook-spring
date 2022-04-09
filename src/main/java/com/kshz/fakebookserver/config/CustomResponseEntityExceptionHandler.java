@@ -44,13 +44,13 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
 		return new ResponseEntity<>(exRes, HttpStatus.BAD_REQUEST);
 	}
-
+	
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest req) {
 		ExceptionResponse exRes = new ExceptionResponse("Something went wrong");
 		return new ResponseEntity<ExceptionResponse>(exRes, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
+	
 	@ExceptionHandler(DuplicateKeyException.class)
 	public final ResponseEntity<ExceptionResponse> handleDuplicateKeyException(DuplicateKeyException ex,
 			WebRequest req) {
@@ -78,7 +78,9 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 		HttpStatus statusCode = ex.getStatusCode();
 
 		ExceptionResponse exRes = new ExceptionResponse(ex.getReason());
-		exRes.addDetails(ex.getDetails());
+		if (ex.getDetails() != null) {
+			exRes.addDetails(ex.getDetails());	
+		}
 
 		return new ResponseEntity<ExceptionResponse>(exRes, statusCode);
 	}
