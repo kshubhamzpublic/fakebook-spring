@@ -47,6 +47,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 	
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest req) {
+		ex.printStackTrace();
 		ExceptionResponse exRes = new ExceptionResponse("Something went wrong");
 		return new ResponseEntity<ExceptionResponse>(exRes, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

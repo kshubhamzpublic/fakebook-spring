@@ -13,10 +13,14 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
 	
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
-		String passwordRegex = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$";
-		Pattern passwordPattern = Pattern.compile(passwordRegex);
-		Matcher passwordMatcher = passwordPattern.matcher(value);
-		return passwordMatcher.matches();
+		if (value != null) {
+			String passwordRegex = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,15}$";
+			Pattern passwordPattern = Pattern.compile(passwordRegex);
+			Matcher passwordMatcher = passwordPattern.matcher(value);
+			return passwordMatcher.matches();
+		} else {
+			return true;
+		}
 	}
 
 }

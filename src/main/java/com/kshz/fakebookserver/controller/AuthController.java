@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kshz.fakebookserver.exceptions.BadRequestException;
 import com.kshz.fakebookserver.jwt.JWT;
 import com.kshz.fakebookserver.model.User;
+import com.kshz.fakebookserver.response.AuthResponse;
 import com.kshz.fakebookserver.service.UserService;
 
 @RestController
@@ -23,27 +24,25 @@ public class AuthController {
 
 	@Autowired
 	private UserService userService;
-
+	
 	@Autowired
 	private JWT jwt;
 
 	@PostMapping("/register")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public User registerUser(@Valid @RequestBody User newUser) {
+	public AuthResponse registerUser(@Valid @RequestBody User newUser) {
 		User savedUser = userService.save(newUser);
-
+		
 		String jwtToken = jwt.generateToken(savedUser.getId(), 
 				savedUser.getName(), 
 				savedUser.getUsername(),
 				savedUser.getEmail());
-
-		savedUser.setToken(jwtToken);
-
-		return savedUser;
+		
+		return new AuthResponse(savedUser, jwtToken);
 	}
 
 	@PostMapping("/login")
-	public User loginUser(@RequestBody Map<String, String> loginCredentials) {
+	public AuthResponse loginUser(@RequestBody Map<String, String> loginCredentials) {
 		String usernameOrEmail = "";
 		
 		String username = loginCredentials.get("username");
@@ -65,17 +64,13 @@ public class AuthController {
 		}
 
 		User user = userService.loginUser(usernameOrEmail, password);
-
-		// generate jwt
+		
 		String jwtToken = jwt.generateToken(user.getId(), 
 				user.getName(), 
-				user.getUsername(), 
+				user.getUsername(),
 				user.getEmail());
-
-		// assign jwt
-		user.setToken(jwtToken);
-
-		return user;
+		
+		return new AuthResponse(user, jwtToken);
 	}
 
 }

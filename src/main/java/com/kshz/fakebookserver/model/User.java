@@ -10,15 +10,15 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.kshz.fakebookserver.annotation.Password;
 
 @Document("user")
-@JsonFilter("filterUserProperties")
 public class User {
 	@Id
+	@JsonIgnore
 	private String id;
 
 	@Field
@@ -52,8 +52,6 @@ public class User {
 	@Field
 	@Size(max = 50, message = "Description can't be greater than 50 characters.")
 	private String description;
-
-	private String token;
 
 	public User() {
 		super();
@@ -114,14 +112,6 @@ public class User {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 
 	@Override

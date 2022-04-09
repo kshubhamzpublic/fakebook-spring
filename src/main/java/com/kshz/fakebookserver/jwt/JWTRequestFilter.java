@@ -63,7 +63,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 		// authentication
 		if (userId != null) {
 			Optional<User> user = userService.findById(userId);
-
+			
 			if (user.isPresent()) {
 				request.setAttribute("userId", userId);
 				

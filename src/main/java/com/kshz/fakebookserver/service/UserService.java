@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import com.kshz.fakebookserver.exceptions.AccessOrModificationNotAllowedException;
 import com.kshz.fakebookserver.exceptions.AuthorizationException;
 import com.kshz.fakebookserver.exceptions.DetailsMismatchException;
 import com.kshz.fakebookserver.exceptions.EntityNotFoundException;
@@ -74,16 +73,13 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User updateUser(String clientId, String userId, UpdateUserRequest requestBody) {
-		Optional<User> currentUser = findById(userId);
+	public User updateUser(String clientId, UpdateUserRequest requestBody) {
+		Optional<User> currentUser = findById(clientId);
 		if (currentUser.isEmpty()) {
-			throw new EntityNotFoundException("User doesn't exist with id: " + userId, null);
+			throw new EntityNotFoundException("User doesn't exist with id: " + clientId, null);
 		}
 		
-		// when request is for other user from client
-		if (!clientId.equals(userId)) {
-			throw new AccessOrModificationNotAllowedException("You're not allowed to modify this user", null);
-		}
+		User user = currentUser.get();
 		
 		// extract request body
 		String newUsername = requestBody.getUsername();
@@ -92,8 +88,6 @@ public class UserService implements IUserService {
 		String newDescription = requestBody.getDescription();
 		String newPassword = requestBody.getNewPassword();
 		String currentPassword = requestBody.getCurrentPassword();
-		
-		User user = currentUser.get();
 		
 		// update property
 		

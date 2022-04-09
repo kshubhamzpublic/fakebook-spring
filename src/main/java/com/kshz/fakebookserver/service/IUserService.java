@@ -16,5 +16,5 @@ public interface IUserService {
 	
 	public User loginUser(String usernameOrEmail, String password);
 	
-	public User updateUser(String clientId, String userId, UpdateUserRequest requestBody);
+	public User updateUser(String clientId, UpdateUserRequest requestBody);
 }
