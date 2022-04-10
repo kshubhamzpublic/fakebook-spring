@@ -1,5 +1,6 @@
 package com.kshz.fakebookserver.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -16,4 +17,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 	
 	@Query("{ email: ?0 }")
 	public Optional<User> findUserByEmail(String email);
+	
+	@Query("{ name: { $regex: /?0/, $options: 'i' } }")
+	public List<User> findByName(String searchQuery);
 }

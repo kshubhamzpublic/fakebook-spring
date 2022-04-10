@@ -1,5 +1,6 @@
 package com.kshz.fakebookserver.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.kshz.fakebookserver.model.User;
@@ -11,10 +12,12 @@ public interface IUserService {
 	public Optional<User> findUserByUsername(String username);
 
 	public Optional<User> findUserByEmail(String email);
-	
+
 	public User save(User user);
-	
+
 	public User loginUser(String usernameOrEmail, String password);
-	
+
 	public User updateUser(String clientId, UpdateUserRequest requestBody);
+	
+	public List<User> findByName(String name);
 }

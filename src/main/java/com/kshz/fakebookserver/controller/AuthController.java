@@ -1,7 +1,9 @@
 package com.kshz.fakebookserver.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import com.kshz.fakebookserver.exceptions.BadRequestException;
 import com.kshz.fakebookserver.jwt.JWT;
 import com.kshz.fakebookserver.model.User;
 import com.kshz.fakebookserver.response.AuthResponse;
+import com.kshz.fakebookserver.service.RegisterationCheckService;
 import com.kshz.fakebookserver.service.UserService;
 
 @RestController
@@ -27,6 +30,9 @@ public class AuthController {
 	
 	@Autowired
 	private JWT jwt;
+	
+	@Autowired
+	private RegisterationCheckService registerationCheckService;
 
 	@PostMapping("/register")
 	@ResponseStatus(code = HttpStatus.CREATED)
@@ -72,5 +78,13 @@ public class AuthController {
 		
 		return new AuthResponse(user, jwtToken);
 	}
-
+	
+	@PostMapping("/users")
+	public Map<String, Boolean> checkIfRegistered(@RequestBody Map<String, String> requestBody, 
+			HttpServletRequest request) {
+		String license = request.getHeader("fyb");
+		Map<String, Boolean> result = new HashMap<>();
+		result.put("registered", registerationCheckService.isRegistered(license, requestBody));
+		return result;
+	}
 }

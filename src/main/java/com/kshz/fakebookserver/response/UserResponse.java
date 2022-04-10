@@ -1,13 +1,14 @@
 package com.kshz.fakebookserver.response;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.kshz.fakebookserver.model.Post;
 import com.kshz.fakebookserver.model.User;
 
 public class UserResponse {
 	private User user;
-	private List<Post> posts;
+	private List<PostResponse> posts;
 	private boolean self;
 	private String message;
 
@@ -16,7 +17,11 @@ public class UserResponse {
 
 	public UserResponse(User user, List<Post> posts, boolean self, String message) {
 		this.user = user;
-		this.posts = posts;
+		
+		this.posts = posts.stream()
+				.map(post -> new PostResponse(post, self))
+				.collect(Collectors.toList());
+		
 		this.self = self;
 		this.message = message;
 	}
@@ -29,11 +34,11 @@ public class UserResponse {
 		this.user = user;
 	}
 
-	public List<Post> getPosts() {
+	public List<PostResponse> getPosts() {
 		return posts;
 	}
 
-	public void setPosts(List<Post> posts) {
+	public void setPosts(List<PostResponse> posts) {
 		this.posts = posts;
 	}
 

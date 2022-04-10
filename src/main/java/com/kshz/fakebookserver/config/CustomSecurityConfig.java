@@ -26,7 +26,7 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		
 		http.antMatcher("/**").authorizeRequests() // authorize all rquest
-			.antMatchers("/auth/**").permitAll() // except auth one
+			.antMatchers("/auth/**", "/post/all").permitAll() // except auth one
 			.anyRequest()
 			.authenticated();
 		

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.kshz</groupId>
 	<artifactId>fakebook-server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>fakebook-server</name>
 	<description>Spring Boot Server for fakebook</description>
 	<properties>

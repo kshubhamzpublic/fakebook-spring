@@ -1,5 +1,6 @@
 package com.kshz.fakebookserver.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +124,11 @@ public class UserService implements IUserService {
 
 	private boolean isUpdatingValueValid(String value) {
 		return value != null && value.trim().length() > 1;
+	}
+
+	@Override
+	public List<User> findByName(String name) {
+		return userRepository.findByName(name);
 	}
 	
 }

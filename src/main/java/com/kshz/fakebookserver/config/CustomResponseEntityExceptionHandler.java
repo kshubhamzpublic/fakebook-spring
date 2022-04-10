@@ -8,6 +8,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,12 +43,29 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 			exRes.setMessage("Invalid Fields: " + invalidFields);
 		}
 
-		return new ResponseEntity<>(exRes, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(exRes, status);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ExceptionResponse exRes = new ExceptionResponse("Cannot parse request body / http message");
+		
+		try {
+			exRes.addDetails(StringParser
+					.parseHttpMessageNotReadableMostSpecificCause(ex.getMostSpecificCause()
+							.getLocalizedMessage()));
+		} catch (IndexOutOfBoundsException e) {
+			exRes.addDetails(ex.getMostSpecificCause().getLocalizedMessage());
+		} catch (Exception e) {
+			exRes.addDetails(ex.getLocalizedMessage());
+		}
+		
+		return new ResponseEntity<>(exRes, status);
 	}
 	
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest req) {
-		ex.printStackTrace();
 		ExceptionResponse exRes = new ExceptionResponse("Something went wrong");
 		return new ResponseEntity<ExceptionResponse>(exRes, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -55,6 +73,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 	@ExceptionHandler(DuplicateKeyException.class)
 	public final ResponseEntity<ExceptionResponse> handleDuplicateKeyException(DuplicateKeyException ex,
 			WebRequest req) {
+		ex.printStackTrace();
 		ExceptionResponse exRes = null;
 
 		try {
