@@ -24,7 +24,7 @@ public class User {
 	@Field
 	@NotNull(message = "username must be defined")
 	@NotBlank(message = "Please provide username")
-	@Indexed(unique = true)
+	@Indexed(unique = true, name="username_1")
 	@Pattern(regexp = "^[a-z][a-z0-9\\._-]{3,20}$", 
 		message = "Please provide a valid username")
 	private String username;
@@ -37,7 +37,7 @@ public class User {
 	@Field
 	@NotNull(message = "email must be defined")
 	@NotBlank(message = "Please provide email")
-	@Indexed(unique = true)
+	@Indexed(unique = true, name="email_1")
 	@Pattern(regexp = "^[a-z][a-z0-9\\._-]+[@][a-z]+[.][a-z]+$", 
 		message = "Please provide valid email address")
 	private String email;
