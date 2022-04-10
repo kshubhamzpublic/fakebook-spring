@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.kshz.fakebookserver.annotation.Password;
 
-@Document("user")
+@Document("users")
 public class User {
 	@Id
 	@JsonIgnore

@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Document("post")
+@Document("posts")
 public class Post {
 	@Id
 	@JsonProperty("_id")
