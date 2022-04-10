@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,10 @@ import com.kshz.fakebookserver.request.UpdateUserRequest;
 
 @Service
 public class UserService implements IUserService {
-
+	
+	@Value("${bcrypt.salt.rounds}")
+	private int saltRounds;
+	
 	@Autowired
 	private UserRepository userRepository;
 	
@@ -38,7 +42,7 @@ public class UserService implements IUserService {
 	@Override
 	public User save(User user) {
 		// hash password
-		String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+		String hashedPassword = hashPassword(user.getPassword());
 
 		// update password with hashed password
 		user.setPassword(hashedPassword);
@@ -116,14 +120,20 @@ public class UserService implements IUserService {
 				throw new AuthorizationException("Current Password is invalid/not-matching.", null);
 			}
 			
-			user.setPassword(newPassword);
+			user.setPassword(hashPassword(newPassword));
 		}
 		
-		return save(user);
+		return userRepository.save(user);
 	}
 
 	private boolean isUpdatingValueValid(String value) {
 		return value != null && value.trim().length() > 1;
+	}
+	
+	private String hashPassword(String pw) {
+		String salt = BCrypt.gensalt(saltRounds);
+		
+		return BCrypt.hashpw(pw, salt);
 	}
 
 	@Override

@@ -93,7 +93,7 @@ public class JWT implements Serializable {
 
 	private String _generateToken(Map<String, Object> payloadClaims) {
 		String token = null;
-
+		
 		try {
 			token = com.auth0.jwt.JWT.create().withPayload(payloadClaims).sign(Algorithm.HMAC256(secret));
 		} catch (JWTCreationException e) {
