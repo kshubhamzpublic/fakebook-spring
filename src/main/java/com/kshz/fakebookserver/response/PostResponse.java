@@ -1,6 +1,6 @@
 package com.kshz.fakebookserver.response;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +18,7 @@ public class PostResponse {
 	private ParsedUser author;
 	private List<ParsedUser> likes;
 	private List<ParsedUser> dislikes;
-	private LocalDateTime postedAt;
+	private Instant postedAt;
 
 	public PostResponse(Post post, boolean selfFlag) {
 		this._id = post.getId();
@@ -95,11 +95,11 @@ public class PostResponse {
 		this.dislikes = dislikes;
 	}
 
-	public LocalDateTime getPostedAt() {
+	public Instant getPostedAt() {
 		return postedAt;
 	}
 
-	public void setPostedAt(LocalDateTime postedAt) {
+	public void setPostedAt(Instant postedAt) {
 		this.postedAt = postedAt;
 	}
 
