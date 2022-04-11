@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -35,7 +36,7 @@ public class Post {
 	@NotNull(message = "Public must be defined.")
 	private boolean publicPost;
 
-	@Field
+	@Field(targetType = FieldType.DATE_TIME)
 	private LocalDateTime postedAt;
 	
 	@Field
