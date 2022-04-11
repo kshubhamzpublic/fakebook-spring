@@ -38,6 +38,8 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 					.stream()
 					.forEach(origin -> cors.addAllowedOrigin(origin));
 			}
+			cors.setAllowedMethods(List.of("*"));
+			cors.setAllowedHeaders(List.of("*"));
 			return cors;
 		});
 		
