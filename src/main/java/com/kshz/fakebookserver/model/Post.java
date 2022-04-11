@@ -39,15 +39,15 @@ public class Post {
 	private LocalDateTime postedAt;
 	
 	@Field
-	@DocumentReference(collection = "user")
+	@DocumentReference(collection = "users")
 	private User author;
 
 	@Field
-	@DocumentReference(collection = "user", lazy = true)
+	@DocumentReference(collection = "users", lazy = true)
 	private Set<User> likes;
 
 	@Field
-	@DocumentReference(collection = "user", lazy = true)
+	@DocumentReference(collection = "users", lazy = true)
 	private Set<User> dislikes;
 
 	public Post() {
