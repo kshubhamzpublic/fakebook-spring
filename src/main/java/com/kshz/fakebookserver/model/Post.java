@@ -12,7 +12,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -36,19 +35,19 @@ public class Post {
 	@NotNull(message = "Public must be defined.")
 	private boolean publicPost;
 
-	@Field(targetType = FieldType.DATE_TIME)
+	@Field
 	private LocalDateTime postedAt;
 	
 	@Field
-	@DocumentReference(collection = "user")
+	@DocumentReference(collection = "users")
 	private User author;
 
 	@Field
-	@DocumentReference(collection = "user", lazy = true)
+	@DocumentReference(collection = "users", lazy = true)
 	private Set<User> likes;
 
 	@Field
-	@DocumentReference(collection = "user", lazy = true)
+	@DocumentReference(collection = "users", lazy = true)
 	private Set<User> dislikes;
 
 	public Post() {
