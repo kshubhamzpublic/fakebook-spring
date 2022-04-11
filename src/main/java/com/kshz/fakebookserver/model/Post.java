@@ -1,6 +1,6 @@
 package com.kshz.fakebookserver.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -36,7 +36,7 @@ public class Post {
 	private boolean publicPost;
 
 	@Field
-	private LocalDateTime postedAt;
+	private Instant postedAt;
 	
 	@Field
 	@DocumentReference(collection = "users")
@@ -60,7 +60,7 @@ public class Post {
 	}
 	
 	public void initializePost() {
-		this.postedAt = LocalDateTime.now();
+		this.postedAt = Instant.now();
 		this.likes = new TreeSet<>();
 		this.dislikes = new TreeSet<>();
 	}
@@ -97,11 +97,11 @@ public class Post {
 		this.publicPost = publicPost;
 	}
 
-	public LocalDateTime getPostedAt() {
+	public Instant getPostedAt() {
 		return postedAt;
 	}
 
-	public void setPostedAt(LocalDateTime postedAt) {
+	public void setPostedAt(Instant postedAt) {
 		this.postedAt = postedAt;
 	}
 
