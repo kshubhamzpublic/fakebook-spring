@@ -18,9 +18,11 @@ public class UserResponse {
 	public UserResponse(User user, List<Post> posts, boolean self, String message) {
 		this.user = user;
 		
-		this.posts = posts.stream()
-				.map(post -> new PostResponse(post, self))
-				.collect(Collectors.toList());
+		if (posts != null) {
+			this.posts = posts.stream()
+					.map(post -> new PostResponse(post, self))
+					.collect(Collectors.toList());
+		}
 		
 		this.self = self;
 		this.message = message;
