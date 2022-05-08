@@ -33,6 +33,18 @@ public class AuthController {
 	
 	@Autowired
 	private RegisterationCheckService registerationCheckService;
+	
+	@PostMapping("/google-login")
+	public AuthResponse loginWithGoogle(@RequestBody String credential) {
+		User authenticatedUser = userService.loginWithGoogle(credential);
+		
+		String jwtToken = jwt.generateToken(authenticatedUser.getId(),
+				authenticatedUser.getName(), 
+				authenticatedUser.getUsername(), 
+				authenticatedUser.getEmail());
+		
+		return new AuthResponse(authenticatedUser, jwtToken);
+	}
 
 	@PostMapping("/register")
 	@ResponseStatus(code = HttpStatus.CREATED)

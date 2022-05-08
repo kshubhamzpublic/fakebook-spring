@@ -25,8 +25,7 @@ public class User {
 	@NotNull(message = "username must be defined")
 	@NotBlank(message = "Please provide username")
 	@Indexed(unique = true, name = "username_1")
-	@Pattern(regexp = "^[a-z][a-z0-9\\._-]{3,20}$", 
-		message = "Please provide a valid username")
+	@Pattern(regexp = "^[a-z][a-z0-9\\._-]{3,20}$", message = "Please provide a valid username")
 	private String username;
 
 	@Field
@@ -38,8 +37,7 @@ public class User {
 	@NotNull(message = "email must be defined")
 	@NotBlank(message = "Please provide email")
 	@Indexed(unique = true, name = "email_1")
-	@Pattern(regexp = "^[a-z][a-z0-9\\._-]+[@][a-z]+[.][a-z]+$", 
-		message = "Please provide valid email address")
+	@Pattern(regexp = "^[a-z][a-z0-9\\._-]+[@][a-z]+[.][a-z]+$", message = "Please provide valid email address")
 	private String email;
 
 	@Field
@@ -52,6 +50,12 @@ public class User {
 	@Field
 	@Size(max = 50, message = "Description can't be greater than 50 characters.")
 	private String description;
+
+	@Field
+	private boolean social;
+
+	@Field
+	private String profileImage;
 
 	public User() {
 		super();
@@ -112,6 +116,22 @@ public class User {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public boolean isSocial() {
+		return social;
+	}
+
+	public void setSocial(boolean social) {
+		this.social = social;
+	}
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	@Override
