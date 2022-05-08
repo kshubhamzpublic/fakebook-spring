@@ -19,5 +19,7 @@ public interface IUserService {
 
 	public User updateUser(String clientId, UpdateUserRequest requestBody);
 	
+	public User loginWithGoogle(String credential);
+	
 	public List<User> findByName(String name);
 }
